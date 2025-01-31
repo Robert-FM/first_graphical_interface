@@ -1,17 +1,26 @@
 import customtkinter as ctk
+import os
 
 #Configuração de aparência
 ctk.set_appearance_mode('dark')
 
 #Criação das funções de funcioanlidade
+# Função para validar login
 def validar_login():
-    usuario = campo_usuario.get()
-    senha = campo_senha.get()
-    #verificar usuario
-    if usuario == 'Robert' and  senha == '88087666':
-        resultado_login.configure(text='Login feito com sucesso!', text_color='green')
-    else:
-        resultado_login.configure(text='Login/senha incorreto', text_color='red')
+    usuario_digitado = campo_usuario.get()
+    senha_digitada = campo_senha.get()
+
+    # Verificar se o arquivo existe
+    if not os.path.exists('senha.csv'):
+        resultado_login.configure(text='Erro: Arquivo de usuários não encontrado!', text_color='red')
+        return
+    
+    # Abrir o arquivo CSV e verificar as credenciais
+    with open('senha.csv', encoding='utf-8') as arquivo:
+        if f"{usuario_digitado},{senha_digitada}\n" in arquivo.readlines():
+            resultado_login.configure(text='Login feito com sucesso!', text_color='green')
+        else:
+            resultado_login.configure(text='Login/senha incorretos', text_color='red')
 
 #Criação da janela principal
 app = ctk.CTk()
