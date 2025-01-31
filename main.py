@@ -15,7 +15,8 @@ def validar_login():
     
     # Abrir o arquivo CSV e verificar as credenciais
     with open('senha.csv', encoding='utf-8') as arquivo:
-        if f"{usuario_digitado},{senha_digitada}\n" in arquivo.readlines():
+        credenciais = [linha.strip() for linha in arquivo]  # Remove espaços e quebras de linha
+        if f"{usuario_digitado},{senha_digitada}" in credenciais:
             resultado_login.configure(text='Login feito com sucesso!', text_color='green')
         else:
             resultado_login.configure(text='Login/senha incorretos', text_color='red')
